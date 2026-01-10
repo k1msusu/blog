@@ -50,7 +50,7 @@ subnet 192.168.100.0 netmask 255.255.255.0 {
 ```
 systemctl restart httpd
 vim /etc/yum.repos.d/pxe.repo
-# 加载源文件，防止出现意外
+# 加载源文件，防止出现 kickstart 菜单出现白屏
 [development]
 name=pxe
 baseurl=http://192.168.100.133/pub
@@ -85,12 +85,14 @@ label linux
 menu separator # insert an empty line
 # 切换主机使用 system-config-kickstart 工具获取 123.ks
 mkdir -p /var/www/html/pub/ks
-cp /var/www/html/pub/isolinux/* /var/lib/tftpboot/
+cp /var/www/html/pub/isolinux/* /var/lib/tftpboot/  # isolinux 下面的一些内核/菜单依赖
 # 如果 DHPC 出问题，源主机 systemctl restart dhcp
 ``
 
 ```
+
 Questions From AI
+
 ```
 ✔ dhcp.conf 缺失 allow booting; allow bootp; PXE 专属配置
 ✔ TFTP 配置文件 disable=yes 未改为 no，TFTP 服务无法启动
